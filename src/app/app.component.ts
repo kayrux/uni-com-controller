@@ -15,9 +15,14 @@ export class AppComponent {
 
   ngOnInit() {}
 
-  connect() {
-    console.log('connecting...');
-    this.webSocketService.connect();
+  connectAsController() {
+    console.log('connecting as controller...');
+    this.webSocketService.connect('controller');
+  }
+
+  connectAsBot() {
+    console.log('connecting as bot...');
+    this.webSocketService.connect('bot');
   }
 
   helloWorld() {

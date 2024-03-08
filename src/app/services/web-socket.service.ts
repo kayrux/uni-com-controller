@@ -3,32 +3,45 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, tap, switchAll, switchMap } from 'rxjs/operators';
 import { EMPTY, of, Subject } from 'rxjs';
 export const WS_ENDPOINT = 'ws://localhost:8080';
+type ClientType = 'controller' | 'bot';
+
 @Injectable({
   providedIn: 'root',
 })
 export class WebSocketService {
   private ws!: WebSocket;
+  private clientType: ClientType = 'controller';
 
-  public connect() {
+  public connect(clientType: ClientType) {
+    this.clientType = clientType;
+    if (this.ws && this.ws.OPEN) {
+      console.log('A connection already exists');
+      return;
+    }
     this.ws = new WebSocket(WS_ENDPOINT);
 
     this.ws.onopen = () => {
       console.log('socket connection established...');
-      this.establishSender();
+      this.establishClientType();
     };
 
     this.ws.onclose = () => {
       console.log('socket disconnected...');
     };
+
+    this.ws.onmessage = (message) => {
+      console.log('received: %s', JSON.stringify(message));
+      console.log(message.data);
+    };
   }
 
   public constructor() {}
 
-  public establishSender() {
+  public establishClientType() {
     this.ws.send(
       JSON.stringify({
         event: 'identify',
-        sender: 'controller',
+        clientType: this.clientType,
       })
     );
   }
@@ -39,7 +52,7 @@ export class WebSocketService {
       this.ws.send(
         JSON.stringify({
           event: 'message',
-          sender: 'controller',
+          clientType: this.clientType,
           message: msg,
         })
       );

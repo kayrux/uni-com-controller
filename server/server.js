@@ -48,14 +48,13 @@ wss.on("connection", function connection(ws) {
 
   function broadcastOnlineClientsList() {
     console.log("broadcasting");
-    [...wss.clients].forEach((client) => {
-      client.send(
-        JSON.stringify({
-          online: [...wss.clients].map((c) => ({
-            clientType: c.clientType,
-          })),
-        })
-      );
+    const clientsOnline = JSON.stringify({
+      online: [...wss.clients].map((c) => ({
+        clientType: c.clientType,
+      })),
+    });
+    wss.clients.forEach((client) => {
+      client.send(clientsOnline);
     });
   }
 });

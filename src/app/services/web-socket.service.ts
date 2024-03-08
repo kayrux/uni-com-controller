@@ -10,11 +10,12 @@ type ClientType = 'controller' | 'bot';
 })
 export class WebSocketService {
   private ws!: WebSocket;
+  private isAlive = false;
   private clientType: ClientType = 'controller';
 
   public connect(clientType: ClientType) {
     this.clientType = clientType;
-    if (this.ws && this.ws.OPEN) {
+    if (this.ws && this.isAlive) {
       console.log('A connection already exists');
       return;
     }
@@ -22,10 +23,12 @@ export class WebSocketService {
 
     this.ws.onopen = () => {
       console.log('socket connection established...');
+      this.isAlive = true;
       this.establishClientType();
     };
 
     this.ws.onclose = () => {
+      this.isAlive = false;
       console.log('socket disconnected...');
     };
 
@@ -33,6 +36,13 @@ export class WebSocketService {
       console.log('received: %s', JSON.stringify(message));
       console.log(message.data);
     };
+  }
+
+  public disconnect() {
+    if (this.ws && this.isAlive) {
+      this.ws.close();
+      return;
+    }
   }
 
   public constructor() {}

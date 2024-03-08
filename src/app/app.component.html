@@ -4,9 +4,11 @@
     <button mat-raised-button color="primary" (click)="connectAsBot()">Connect as Bot</button>
   </div>
   <div *ngIf="currentState === 'controller'" class="controller-view">
+    <ng-container *ngTemplateOutlet="back"></ng-container>
     CONTROLLER
   </div>
   <div *ngIf="currentState === 'bot'" class="bot-view">
+    <ng-container *ngTemplateOutlet="back"></ng-container>
     BOT
   </div>
 </div>

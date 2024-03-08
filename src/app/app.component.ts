@@ -31,6 +31,7 @@ export class AppComponent {
   }
 
   returnToSelection() {
+    this.webSocketService.disconnect();
     this.currentState = 'selection';
   }
 

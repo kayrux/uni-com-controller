@@ -4,9 +4,9 @@ const app = express();
 const port = 8080;
 const path = require("path");
 
-app.get("/", (req, res) => {
-  res.send("Hello World from Node.js server!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World from Node.js server!");
+// });
 
 const server = app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
@@ -22,6 +22,7 @@ const server = app.listen(port, () => {
 const wss = new ws.WebSocketServer({ server });
 
 wss.on("connection", function connection(ws) {
+  console.log("connection received...");
   ws.on("error", console.error);
 
   ws.on("message", function message(data) {

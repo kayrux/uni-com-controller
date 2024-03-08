@@ -1,8 +1,18 @@
-<div class="interface">
-  <div class="controls">
-    <button mat-button (click)="connectAsController()">Connect As Controller</button>
-    <button mat-button (click)="connectAsBot()">Connect As Bot</button>
-    <button mat-button (click)="helloWorld()">Hello World</button>
-    <button mat-button (click)="a()">I am A</button>
+<div class="main-container">
+  <div class="client-type-selection-container" *ngIf="currentState === 'selection'">
+    <button mat-raised-button color="primary" (click)="connectAsController()">Connect as Controller</button>
+    <button mat-raised-button color="primary" (click)="connectAsBot()">Connect as Bot</button>
+  </div>
+  <div *ngIf="currentState === 'controller'" class="controller-view">
+    <ng-container *ngTemplateOutlet="back"></ng-container>
+    CONTROLLER
+  </div>
+  <div *ngIf="currentState === 'bot'" class="bot-view">
+    <ng-container *ngTemplateOutlet="back"></ng-container>
+    BOT
   </div>
 </div>
+
+<ng-template #back>
+  <button mat-raised-button color="primary" (click)="returnToSelection()">Return to selection</button>
+</ng-template>

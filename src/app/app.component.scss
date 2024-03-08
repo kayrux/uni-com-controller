@@ -1,0 +1,29 @@
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+.client-type-selection-container {
+  display: flex;
+  column-gap: 1rem;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.controller-view {
+  display: flex;
+  column-gap: 1rem;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.bot-view {
+  display: flex;
+  column-gap: 1rem;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}

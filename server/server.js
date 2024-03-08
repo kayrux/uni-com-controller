@@ -22,7 +22,9 @@ const server = app.listen(port, () => {
 const wss = new ws.WebSocketServer({ server });
 
 wss.on("connection", function connection(ws) {
-  broadcastOnlineClientsList();
+  setTimeout(() => {
+    broadcastOnlineClientsList();
+  }, 500);
   console.log("connection received...");
   ws.on("error", console.error);
 

@@ -1,23 +1,14 @@
 const ws = require("ws");
 const express = require("express");
+require("dotenv").config();
 const app = express();
-const port = 8080;
 const path = require("path");
 
-// app.get("/", (req, res) => {
-//   res.send("Hello World from Node.js server!");
-// });
-
-const server = app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+const PORT = process.env.PORT || 8080;
+const IP_ADDRESS = process.env.IP_ADDRESS || "localhost";
+const server = app.listen(PORT, IP_ADDRESS, () => {
+  console.log(`Server listening at ${IP_ADDRESS} port: ${PORT}`);
 });
-
-// Serve your app through the node server
-// app.use(express.static(path.join(__dirname, "../dist/uni-com-controller")));
-
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../dist/uni-com-controller/index.html"));
-// });
 
 const wss = new ws.WebSocketServer({ server });
 

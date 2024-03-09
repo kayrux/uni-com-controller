@@ -1,12 +1,11 @@
 <div class="chatbox-container">
-  <div class="messages-container">
-    <div *ngFor="let message of messages">
+  <div class="messages-container" #chatboxMessages>
+    <div *ngFor="let message of messages" class="message">
+      <span class="client-type">{{message.clientType | titlecase}}:</span>
       {{message.message}}
     </div>
   </div>
   <div class="input-container">
-    <mat-form-field>
-      <input matInput [formControl]="chatInputFormControl" (keydown.enter)="sendMessage()">
-    </mat-form-field>
+    <input type="text" [(ngModel)]="chatInput" (keydown.enter)="sendMessage()">
   </div>
 </div>

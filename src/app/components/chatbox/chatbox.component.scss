@@ -6,7 +6,8 @@
   flex-direction: column;
   align-items: end;
   row-gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.7rem;
+  padding-top: 1rem;
   border-radius: 5px;
   overflow: hidden;
 }
@@ -17,13 +18,29 @@
   display: flex;
   flex-direction: column;
   row-gap: 0.2rem;
-  max-height: 400px;
+  max-height: 460px;
   overflow: auto;
 }
 
 .input-container {
   width: 100%;
   margin-top: auto;
+  display: flex;
+}
+
+.input-container input {
+  flex: 1;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.message {
+  min-height: 1.5rem;
+}
+
+.client-type {
+  font-weight: bold;
 }
 
 mat-form-field {

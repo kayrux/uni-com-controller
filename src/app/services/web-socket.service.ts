@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, tap, switchAll, switchMap } from 'rxjs/operators';
 import { EMPTY, of, Subject } from 'rxjs';
+import { ClientType, Message } from '../components/chatbox/chatbox.model';
 export const WS_ENDPOINT = 'ws://localhost:8080';
 export const WS_ENDPOINT_2 = 'ws://10.13.173.87:8080';
-// 10.13.173.87
-export type ClientType = 'controller' | 'bot';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,7 @@ export class WebSocketService {
   private ws!: WebSocket;
   private isAlive = false;
   public clientType: ClientType = 'controller';
-  public onMessageReceived$: Subject<string> = new Subject<string>();
+  public onMessageReceived$: Subject<Message> = new Subject<Message>();
 
   public connect(clientType: ClientType) {
     this.clientType = clientType;
@@ -40,7 +39,7 @@ export class WebSocketService {
       if (parsedData.clientType !== this.clientType) {
         switch (parsedData.event) {
           case 'message':
-            this.onMessageReceived$.next(parsedData.message);
+            this.onMessageReceived$.next(parsedData);
             break;
         }
       }

@@ -1,5 +1,5 @@
 import { WebSocketService } from './../../services/web-socket.service';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SharedAngularMaterialModule } from '../../modules/shared-angular-material/shared-angular-material.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,20 +11,15 @@ import { Message } from './chatbox.model';
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-  ],
+  imports: [SharedAngularMaterialModule],
   templateUrl: './chatbox.component.html',
   styleUrl: './chatbox.component.scss',
 })
 export class ChatboxComponent {
+  @ViewChild('chatboxMessages') private chatboxMessages!: ElementRef;
   public chatInputFormControl: FormControl = new FormControl('');
   public messages: Message[] = [];
+  public chatInput: string = '';
   public constructor(private webSocketService: WebSocketService) {}
 
   ngOnInit() {
@@ -34,20 +29,30 @@ export class ChatboxComponent {
   }
 
   sendMessage() {
-    this.messages.push({
-      clientType: this.webSocketService.clientType,
-      message: this.chatInputFormControl.value,
-    });
-    this.webSocketService.sendMessage(this.chatInputFormControl.value);
-
-    // reset value
-    this.chatInputFormControl.setValue('');
+    if (this.chatInput.trim() !== '') {
+      this.messages.push({
+        clientType: this.webSocketService.clientType,
+        message: this.chatInput,
+        event: 'message',
+      });
+      this.webSocketService.sendMessage(this.chatInput);
+      setTimeout(() => {
+        this.chatboxMessages.nativeElement.scrollTop =
+          this.chatboxMessages.nativeElement.scrollHeight;
+      }, 0);
+      this.chatInput = '';
+    }
   }
 
-  pushMessage(msg: string) {
+  pushMessage(msg: Message) {
     this.messages.push({
-      clientType: this.webSocketService.clientType,
-      message: msg,
+      event: msg.event,
+      clientType: msg.clientType,
+      message: msg.message,
     });
+    setTimeout(() => {
+      this.chatboxMessages.nativeElement.scrollTop =
+        this.chatboxMessages.nativeElement.scrollHeight;
+    }, 0);
   }
 }

@@ -27,11 +27,11 @@ wss.on("connection", function connection(ws) {
       case "identify":
         ws.clientType = parsedData.clientType;
         console.log("clientType established: %s", ws.clientType);
-        ws.send(
-          JSON.stringify({
-            message: `connection established as ${ws.clientType}`,
-          })
-        );
+        // ws.send(
+        //   JSON.stringify({
+        //     message: `connection established as ${ws.clientType}`,
+        //   })
+        // );
         break;
       case "message":
         broadcastMessage(parsedData);

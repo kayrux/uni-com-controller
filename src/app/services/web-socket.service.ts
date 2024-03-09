@@ -3,7 +3,9 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, tap, switchAll, switchMap } from 'rxjs/operators';
 import { EMPTY, of, Subject } from 'rxjs';
 export const WS_ENDPOINT = 'ws://localhost:8080';
-type ClientType = 'controller' | 'bot';
+export const WS_ENDPOINT_2 = 'ws://10.13.173.87:8080';
+// 10.13.173.87
+export type ClientType = 'controller' | 'bot';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +13,8 @@ type ClientType = 'controller' | 'bot';
 export class WebSocketService {
   private ws!: WebSocket;
   private isAlive = false;
-  private clientType: ClientType = 'controller';
+  public clientType: ClientType = 'controller';
+  public onMessageReceived$: Subject<string> = new Subject<string>();
 
   public connect(clientType: ClientType) {
     this.clientType = clientType;
@@ -32,9 +35,15 @@ export class WebSocketService {
       console.log('socket disconnected...');
     };
 
-    this.ws.onmessage = (message) => {
-      console.log('received: %s', JSON.stringify(message));
-      console.log(message.data);
+    this.ws.onmessage = (messageEvent) => {
+      const parsedData = JSON.parse(messageEvent.data);
+      if (parsedData.clientType !== this.clientType) {
+        switch (parsedData.event) {
+          case 'message':
+            this.onMessageReceived$.next(parsedData.message);
+            break;
+        }
+      }
     };
   }
 

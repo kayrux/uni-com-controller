@@ -33,6 +33,8 @@ wss.on("connection", function connection(ws) {
           })
         );
         break;
+      case "message":
+        broadcastMessage(parsedData);
       default:
     }
   });
@@ -47,5 +49,17 @@ wss.on("connection", function connection(ws) {
     wss.clients.forEach((client) => {
       client.send(clientsOnline);
     });
+  }
+
+  function broadcastMessage(data) {
+    const formattedMessage = JSON.stringify({
+      clientType: data.clientType,
+      message: data.message,
+      event: data.event,
+    });
+    console.log("broadcasting message: %s", formattedMessage);
+    [...wss.clients]
+      .filter(() => data.event !== "identify")
+      .forEach((c) => c.send(formattedMessage));
   }
 });

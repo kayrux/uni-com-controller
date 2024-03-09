@@ -3,13 +3,13 @@
     <button mat-raised-button color="primary" (click)="connectAsController()">Connect as Controller</button>
     <button mat-raised-button color="primary" (click)="connectAsBot()">Connect as Bot</button>
   </div>
-  <div *ngIf="currentState === 'controller'" class="controller-view">
+  <div *ngIf="currentState === 'controller'" class="view-container controller-view">
     <ng-container *ngTemplateOutlet="back"></ng-container>
-    CONTROLLER
+    <app-controller></app-controller>
   </div>
-  <div *ngIf="currentState === 'bot'" class="bot-view">
+  <div *ngIf="currentState === 'bot'" class="view-container bot-view">
     <ng-container *ngTemplateOutlet="back"></ng-container>
-    BOT
+    <app-controller></app-controller>
   </div>
 </div>
 

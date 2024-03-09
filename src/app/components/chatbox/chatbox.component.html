@@ -1,0 +1,12 @@
+<div class="chatbox-container">
+  <div class="messages-container">
+    <div *ngFor="let message of messages">
+      {{message.message}}
+    </div>
+  </div>
+  <div class="input-container">
+    <mat-form-field>
+      <input matInput [formControl]="chatInputFormControl" (keydown.enter)="sendMessage()">
+    </mat-form-field>
+  </div>
+</div>

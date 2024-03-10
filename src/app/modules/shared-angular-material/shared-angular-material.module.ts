@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -24,6 +26,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
   ],
 })
 export class SharedAngularMaterialModule {}

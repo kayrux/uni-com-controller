@@ -13,6 +13,9 @@ const server = app.listen(PORT, IP_ADDRESS, () => {
 
 const wss = new ws.WebSocketServer({ server });
 
+let botLanguage = "en";
+let controllerLanguage = "en";
+
 wss.on("connection", function connection(ws) {
   setTimeout(() => {
     broadcastOnlineClientsList();
@@ -28,14 +31,12 @@ wss.on("connection", function connection(ws) {
       case "identify":
         ws.clientType = parsedData.clientType;
         console.log("clientType established: %s", ws.clientType);
-        // ws.send(
-        //   JSON.stringify({
-        //     message: `connection established as ${ws.clientType}`,
-        //   })
-        // );
         break;
       case "message":
         broadcastMessage(parsedData);
+      case "language":
+        botLanguage = parsedData.botLanguage;
+        controllerLanguage = parsedData.controllerLanguage;
       default:
     }
   });
@@ -85,7 +86,7 @@ async function translateText(text) {
     parent: `projects/${projectId}/locations/${location}`,
     contents: [text],
     mimeType: "text/plain", // mime types: text/plain, text/html
-    targetLanguageCode: "de",
+    targetLanguageCode: botLanguage,
   };
 
   // Run request

@@ -1,0 +1,20 @@
+:host {
+  --height: 600px;
+  --left-container-width: 650px;
+}
+.container {
+  display: flex;
+}
+.screen {
+  border-radius: 5px;
+  width: var(--left-container-width);
+  height: calc(var(--height) - 100px);
+  background-color: black;
+}
+
+.left-container {
+  --height: 600px;
+  border: 1px solid black;
+  width: var(--left-container-width);
+  height: var(--height);
+}

@@ -14,5 +14,13 @@
 </div>
 
 <ng-template #back>
-  <button mat-raised-button color="primary" (click)="returnToSelection()">Return to selection</button>
+  <div class="top-bar">
+    <div class="container left-container">
+      <button mat-raised-button color="primary" (click)="returnToSelection()">Return to selection</button>
+    </div>
+    <div class="container middle-container">
+      <div class="client-type">{{ webSocketService.clientType | titlecase}}</div>
+    </div>
+    <div class="container right-container"></div>
+  </div>
 </ng-template>

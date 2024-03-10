@@ -4,6 +4,7 @@ import { WebSocketService } from './services/web-socket.service';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ControllerComponent } from './components/controller/controller.component';
+import { ClientType } from './components/chatbox/chatbox.model';
 type State = 'selection' | 'controller' | 'bot';
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ type State = 'selection' | 'controller' | 'bot';
 export class AppComponent {
   title = 'uni-com-controller';
   public currentState: State = 'selection';
-  public constructor(private webSocketService: WebSocketService) {}
+  public constructor(public webSocketService: WebSocketService) {}
 
   ngOnInit() {}
 

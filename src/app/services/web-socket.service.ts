@@ -78,4 +78,15 @@ export class WebSocketService {
       console.log('no connection found...');
     }
   }
+
+  public changeLanguage(botLanguage?: string, controllerLanguage?: string) {
+    console.log('changed language');
+    this.ws.send(
+      JSON.stringify({
+        event: 'language',
+        botLanguage: botLanguage || 'en',
+        controllerLanguage: controllerLanguage || 'en',
+      })
+    );
+  }
 }

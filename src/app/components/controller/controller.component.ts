@@ -44,7 +44,4 @@ export class ControllerComponent {
       this.controllerLanguageFormControl.value
     );
   }
-  public nosort() {
-    return 0;
-  }
 }

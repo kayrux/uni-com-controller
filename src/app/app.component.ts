@@ -5,11 +5,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ControllerComponent } from './components/controller/controller.component';
 import { ClientType } from './components/chatbox/chatbox.model';
+import { BotViewComponent } from './components/bot-view/bot-view.component';
 type State = 'selection' | 'controller' | 'bot';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatButtonModule, CommonModule, ControllerComponent],
+  imports: [
+    RouterOutlet,
+    MatButtonModule,
+    CommonModule,
+    ControllerComponent,
+    BotViewComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

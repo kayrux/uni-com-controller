@@ -6,10 +6,11 @@
   <div *ngIf="currentState === 'controller'" class="view-container controller-view">
     <ng-container *ngTemplateOutlet="back"></ng-container>
     <app-controller></app-controller>
+
   </div>
   <div *ngIf="currentState === 'bot'" class="view-container bot-view">
     <ng-container *ngTemplateOutlet="back"></ng-container>
-    <app-controller></app-controller>
+    <app-bot-view></app-bot-view>
   </div>
 </div>
 

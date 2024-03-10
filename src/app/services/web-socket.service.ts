@@ -3,7 +3,7 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, tap, switchAll, switchMap } from 'rxjs/operators';
 import { EMPTY, of, Subject } from 'rxjs';
 import { ClientType, Message } from '../components/chatbox/chatbox.model';
-export const WS_ENDPOINT = 'ws://localhost:8080';
+export const WS_ENDPOINT = 'ws://localhost:8070';
 export const WS_ENDPOINT_2 = 'ws://10.13.173.87:8080';
 
 @Injectable({

@@ -34,7 +34,13 @@ wss.on("connection", function connection(ws) {
         break;
       case "message":
         broadcastMessage(parsedData);
+        break;
       case "language":
+        console.log("new bot language %s: ", parsedData.botLanguage);
+        console.log(
+          "new controller language: %s",
+          parsedData.controllerLanguage
+        );
         botLanguage = parsedData.botLanguage;
         controllerLanguage = parsedData.controllerLanguage;
       default:
@@ -54,7 +60,7 @@ wss.on("connection", function connection(ws) {
   }
 
   async function broadcastMessage(data) {
-    translateText(data.message)
+    translateText(data.message, data.clientType)
       .then((translatedText) => {
         const formattedMessage = JSON.stringify({
           clientType: data.clientType,
@@ -79,14 +85,17 @@ const translationClient = new TranslationServiceClient();
 
 const projectId = "unicombot";
 const location = "global";
-async function translateText(text) {
+async function translateText(text, clientType) {
   console.log("Translating...");
+  let targetLanguage =
+    clientType === "controller" ? botLanguage : controllerLanguage;
+  console.log("Message is being translated to: %s", targetLanguage);
   // Construct request
   const request = {
     parent: `projects/${projectId}/locations/${location}`,
     contents: [text],
     mimeType: "text/plain", // mime types: text/plain, text/html
-    targetLanguageCode: botLanguage,
+    targetLanguageCode: targetLanguage,
   };
 
   // Run request

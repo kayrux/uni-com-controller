@@ -2,7 +2,9 @@
   <div class="messages-container" #chatboxMessages>
     <div *ngFor="let message of messages" class="message">
       <span class="client-type">{{message.clientType | titlecase}}:</span>
-      {{message.message}}
+      {{message.message}} <br />
+      <span *ngIf="message.translatedText" class="client-type">{{message.clientType | titlecase}} (translation):
+      </span>{{message.translatedText}}
     </div>
   </div>
   <div class="input-container">

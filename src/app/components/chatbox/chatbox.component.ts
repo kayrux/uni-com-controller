@@ -49,6 +49,7 @@ export class ChatboxComponent {
       event: msg.event,
       clientType: msg.clientType,
       message: msg.message,
+      translatedText: msg.translatedText || '',
     });
     setTimeout(() => {
       this.chatboxMessages.nativeElement.scrollTop =

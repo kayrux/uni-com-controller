@@ -3,6 +3,7 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 const path = require("path");
+const { TranslationServiceClient } = require("@google-cloud/translate");
 
 const PORT = process.env.PORT || 8080;
 const IP_ADDRESS = process.env.IP_ADDRESS || "localhost";
@@ -51,15 +52,50 @@ wss.on("connection", function connection(ws) {
     });
   }
 
-  function broadcastMessage(data) {
-    const formattedMessage = JSON.stringify({
-      clientType: data.clientType,
-      message: data.message,
-      event: data.event,
-    });
-    console.log("broadcasting message: %s", formattedMessage);
-    [...wss.clients]
-      .filter(() => data.event !== "identify")
-      .forEach((c) => c.send(formattedMessage));
+  async function broadcastMessage(data) {
+    translateText(data.message)
+      .then((translatedText) => {
+        const formattedMessage = JSON.stringify({
+          clientType: data.clientType,
+          message: data.message,
+          event: data.event,
+          translatedText: translatedText,
+        });
+        console.log("broadcasting message: %s", formattedMessage);
+        [...wss.clients]
+          .filter(() => data.event !== "identify")
+          .forEach((c) => c.send(formattedMessage));
+      })
+      .catch((error) => {
+        console.error("Error translating text:", error);
+      });
   }
 });
+
+/************************************************************************ Google Cloud Translate ************************************************************************/
+// Instantiates a client
+const translationClient = new TranslationServiceClient();
+
+const projectId = "unicombot";
+const location = "global";
+async function translateText(text) {
+  console.log("Translating...");
+  // Construct request
+  const request = {
+    parent: `projects/${projectId}/locations/${location}`,
+    contents: [text],
+    mimeType: "text/plain", // mime types: text/plain, text/html
+    targetLanguageCode: "de",
+  };
+
+  // Run request
+  const [response] = await translationClient.translateText(request);
+
+  let translatedText = "";
+  for (const translation of response.translations) {
+    // console.log(`Translation: ${translation.translatedText}`);
+    translatedText += translation.translatedText;
+  }
+  console.log(`Translation: ${translatedText}`);
+  return translatedText;
+}
